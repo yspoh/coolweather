@@ -9,6 +9,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -84,7 +86,6 @@ public class ChooseAreaFragment extends Fragment {
      */
     private int currentLevel;
 
-
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -136,6 +137,7 @@ public class ChooseAreaFragment extends Fragment {
                     queryCities();
                 } else if (currentLevel == LEVEL_CITY) {
                     queryProvinces();
+                    listView.scheduleLayoutAnimation();
                 }
             }
         });
@@ -184,6 +186,7 @@ public class ChooseAreaFragment extends Fragment {
             String address = "http://guolin.tech/api/china/" + provinceCode;
             queryFromServer(address, "city");
         }
+        listView.scheduleLayoutAnimation();
     }
 
     /**
@@ -207,6 +210,7 @@ public class ChooseAreaFragment extends Fragment {
             String address = "http://guolin.tech/api/china/" + provinceCode + "/" + cityCode;
             queryFromServer(address, "county");
         }
+        listView.scheduleLayoutAnimation();
     }
 
     /**
