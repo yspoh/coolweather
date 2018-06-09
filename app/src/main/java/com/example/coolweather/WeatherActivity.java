@@ -11,6 +11,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -25,11 +26,14 @@ import android.widget.Toast;
 import android.support.v7.widget.Toolbar;
 
 import com.bumptech.glide.Glide;
+import com.example.coolweather.db.AddStarCity;
 import com.example.coolweather.gson.Forecast;
 import com.example.coolweather.gson.Weather;
 import com.example.coolweather.service.AutoUpdateService;
 import com.example.coolweather.util.HttpUtil;
 import com.example.coolweather.util.Utility;
+
+import org.litepal.LitePal;
 
 import java.io.IOException;
 
@@ -128,6 +132,14 @@ public class WeatherActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume()
+    {
+        super.onResume();
+        mWeatherId = getIntent().getStringExtra("weather_id");
+        requestWeather(mWeatherId);
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
         MenuInflater inflater = getMenuInflater();
@@ -160,16 +172,23 @@ public class WeatherActivity extends AppCompatActivity {
 
     public void addStarCity()
     {
-        SharedPreferences.Editor editor = getSharedPreferences("data",MODE_PRIVATE).edit();
-        CharSequence cscity = toolbar.getTitle();
-        String city = cscity.toString();
-        editor.putString("city",city);
-        editor.putString("weatherId",mWeatherId);
+        AddStarCity starCity = new AddStarCity();
+        starCity.setCity(toolbar.getTitle().toString());
+        starCity.setWeatherId(mWeatherId);
+        starCity.save();
+        if (starCity.getCity() != null) {
+            Toast.makeText(WeatherActivity.this, "添加成功", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            Toast.makeText(WeatherActivity.this, "添加失败", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     public void showAddCity()
     {
-
+        Intent intent = new Intent(WeatherActivity.this, AddStarCityActivity.class);
+        startActivity(intent);
     }
 
     /**

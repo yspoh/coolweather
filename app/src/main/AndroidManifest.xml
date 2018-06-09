@@ -24,7 +24,10 @@
         <service
             android:name=".service.AutoUpdateService"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true" />
+
+        <activity android:name=".AddCityActivity" />
+        <activity android:name=".AddStarCityActivity"></activity>
     </application>
 
 </manifest>

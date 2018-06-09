@@ -3,6 +3,10 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:title="添加关注城市"
+        android:id="@+id/star_city"
+        android:clickable="false"/>
+    <item
         android:title="城市管理"
         android:id="@+id/city"
         android:clickable="false"
@@ -12,8 +16,5 @@
         android:id="@+id/contact"
         android:clickable="false"
         />
-    <item
-        android:title="添加关注城市"
-        android:id="@+id/star_city"
-        android:clickable="false"/>
+
 </menu>
