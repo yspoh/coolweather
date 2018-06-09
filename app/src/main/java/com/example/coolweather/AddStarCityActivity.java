@@ -3,6 +3,7 @@ package com.example.coolweather;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -38,6 +39,9 @@ public class AddStarCityActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_star_city);
+        Toast toast = Toast.makeText(AddStarCityActivity.this,"长按取消关注",Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.CENTER,0,0);
+        toast.show();
         listView = (ListView) findViewById(R.id.list_view);
         button = (Button) findViewById(R.id.back_button);
         adapter = new ArrayAdapter<>(MyApplication.getContext(), android.R.layout.simple_list_item_1, dataList);
@@ -46,8 +50,7 @@ public class AddStarCityActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent (AddStarCityActivity.this,WeatherActivity.class);
-                startActivity(intent);
+                AddStarCityActivity.this.finish();
             }
         });
        if (addStarCityList.size() > 0) {
@@ -68,6 +71,16 @@ public class AddStarCityActivity extends AppCompatActivity {
                 }
             });
         }
+
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                DataSupport.deleteAll(AddStarCity.class,"city = ?",addStarCityList.get(position).getCity());
+                dataList.remove(position);
+                adapter.notifyDataSetChanged();
+                return true;
+            }
+        });
         }
     }
 

@@ -1,15 +1,28 @@
 package com.example.coolweather;
 
+import android.Manifest;
+import android.annotation.TargetApi;
+import android.content.ContentUris;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.provider.DocumentsContract;
+import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,6 +31,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -72,6 +86,8 @@ public class WeatherActivity extends AppCompatActivity {
     private String mWeatherId;
 
     private Toolbar toolbar;
+
+    public static final int CHOOSE_PHOTO = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -163,7 +179,11 @@ public class WeatherActivity extends AppCompatActivity {
                 showAddCity();
                 return true;
             case R.id.contact:
-                Toast.makeText(WeatherActivity.this,"city",Toast.LENGTH_SHORT).show();
+                AlertDialog.Builder dialog = new AlertDialog.Builder(WeatherActivity.this);
+                dialog.setTitle("有任何想说的话请联系我");
+                dialog.setMessage("我的邮件：2980927719@qq.com");
+                dialog.setCancelable(true);
+                dialog.show();
                 return true;
                 default:
                     return super.onOptionsItemSelected(item);
